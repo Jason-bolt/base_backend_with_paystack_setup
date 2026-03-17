@@ -1,0 +1,3 @@
+const SUB_UNIT_MULTIPLIER = 100;
+
+export { SUB_UNIT_MULTIPLIER };

@@ -1,0 +1,1 @@
+ALTER TABLE "reset_password_tokens" ALTER COLUMN "reset_token" SET DATA TYPE text;
