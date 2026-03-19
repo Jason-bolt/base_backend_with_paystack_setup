@@ -1,10 +1,10 @@
 import IController from "./Icontroller";
 import { Request, Response } from "express";
-import BaseService from "../service";
+import IService from "../service/Iservice";
 import baseService from "../service";
 
 class BaseController implements IController {
-  constructor(private readonly service: typeof BaseService) {}
+  constructor(private readonly service: IService) {}
 
   async create(req: Request, res: Response) {
     try {
