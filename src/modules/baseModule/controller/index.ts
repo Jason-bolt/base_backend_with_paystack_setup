@@ -9,7 +9,7 @@ class BaseController implements IController {
   async create(req: Request, res: Response) {
     try {
       return;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error("Failed to create user");
     }
   }
@@ -17,7 +17,7 @@ class BaseController implements IController {
   async read(req: Request, res: Response) {
     try {
       return;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error("Failed to read user");
     }
   }
@@ -25,7 +25,7 @@ class BaseController implements IController {
   async update(req: Request, res: Response) {
     try {
       return;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error("Failed to update user");
     }
   }
@@ -33,7 +33,7 @@ class BaseController implements IController {
   async delete(req: Request, res: Response) {
     try {
       return;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error("Failed to delete user");
     }
   }
