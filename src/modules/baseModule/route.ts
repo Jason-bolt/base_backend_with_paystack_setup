@@ -1,11 +1,11 @@
 import { Router } from "express";
 import baseController from "./controller";
 
-const baseRouter = Router();
+const baseRouterV1 = Router();
 
-baseRouter.post("/create", baseController.create);
-baseRouter.get("/read", baseController.read);
-baseRouter.put("/update", baseController.update);
-baseRouter.delete("/delete", baseController.delete);
+baseRouterV1.post("/create", baseController.create);
+baseRouterV1.get("/read", baseController.read);
+baseRouterV1.put("/update", baseController.update);
+baseRouterV1.delete("/delete", baseController.delete);
 
-export default baseRouter;
+export default baseRouterV1;
