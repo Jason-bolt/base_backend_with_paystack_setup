@@ -11,9 +11,9 @@ import {
 import logger from "../../../../utils/logger";
 import bcrypt from "bcrypt";
 import { getRedisData, setRedisData } from "../../../../utils/helpers/redis";
-import { camelize } from "../../../../utils/helpers/general";
 import jwt from "jsonwebtoken";
 import envs from "../../../../config/envs";
+import { GenericHelper } from "../../../../utils/helpers/generic.helpers";
 
 class UserMiddleware implements IMiddleware {
   async validateCreateUser(req: Request, res: Response, next: NextFunction) {
@@ -79,7 +79,7 @@ class UserMiddleware implements IMiddleware {
         .limit(1);
 
       await setRedisData(`users:email:${email}`, user);
-      userData = camelize(user[0]);
+      userData = GenericHelper.camelize(user[0]);
     }
 
     logger.info(`Existing user: ${JSON.stringify(userData)}`);

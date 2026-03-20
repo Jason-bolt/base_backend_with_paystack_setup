@@ -8,7 +8,7 @@ class BaseService implements IService {
     try {
       return;
     } catch (error) {
-      throw new Error("Failed to create user");
+      throw new Error("Failed to create base");
     }
   }
 
@@ -16,7 +16,7 @@ class BaseService implements IService {
     try {
       return;
     } catch (error) {
-      throw new Error("Failed to read user");
+      throw new Error("Failed to read base");
     }
   }
 
@@ -24,7 +24,7 @@ class BaseService implements IService {
     try {
       return;
     } catch (error) {
-      throw new Error("Failed to update user");
+      throw new Error("Failed to update base");
     }
   }
 
@@ -32,7 +32,7 @@ class BaseService implements IService {
     try {
       return;
     } catch (error) {
-      throw new Error("Failed to delete user");
+      throw new Error("Failed to delete base");
     }
   }
 }

@@ -3,14 +3,13 @@ import { usersTable } from "../../../../config/db/schemas/User";
 import { ICreateUser, IGetUsersFilter, IUpdateUser, IUser } from "../types";
 import IService from "./Iservice";
 import bcrypt from "bcrypt";
-import { camelize } from "../../../../utils/helpers/general";
 import logger from "../../../../utils/logger";
-import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import { getRedisData, setRedisData } from "../../../../utils/helpers/redis";
 import { eq } from "drizzle-orm";
 import envs from "../../../../config/envs";
 import { resetPasswordTokensTable } from "../../../../config/db/schemas/PasswordReset";
+import { GenericHelper } from "../../../../utils/helpers/generic.helpers";
 
 class UserService implements IService {
   constructor(private readonly db: DB) {}
@@ -18,7 +17,7 @@ class UserService implements IService {
   async signUpUser(data: ICreateUser) {
     const hashedPassword = await bcrypt.hash(data.password as string, 10);
     const preparedData = {
-      id: uuidv4(),
+      id: GenericHelper.generateUUID(),
       name: data.name,
       firebase_uid: data?.firebaseUid || undefined,
       email: data.email,
@@ -34,7 +33,7 @@ class UserService implements IService {
 
     logger.info(`User: ${JSON.stringify(user)}`);
 
-    return camelize(user[0]);
+    return GenericHelper.camelize<IUser>(user[0]);
   }
 
   async loginUser(email: string) {
@@ -49,7 +48,7 @@ class UserService implements IService {
         .limit(1);
 
       await setRedisData(`users:email:${email}`, user);
-      userData = camelize(user[0]);
+      userData = GenericHelper.camelize(user[0]);
     }
 
     const tokenData = {
@@ -82,7 +81,7 @@ class UserService implements IService {
         .limit(1);
 
       await setRedisData(`users:email:${email}`, user);
-      userData = camelize(user[0]);
+      userData = GenericHelper.camelize<IUser>(user[0]);
       console.log("No redis data", userData);
     }
 
@@ -95,7 +94,7 @@ class UserService implements IService {
       envs.JWT_SECRET,
       {
         expiresIn: "1h",
-      }
+      },
     );
     const resetTokenData = {
       user_id: userData!.id,
@@ -110,7 +109,10 @@ class UserService implements IService {
       .values(resetTokenData)
       .returning();
 
-    const processedData = camelize(userResetToken[0]);
+    const processedData = GenericHelper.camelize<{
+      userId: string;
+      resetToken: string;
+    }>(userResetToken[0]);
     return processedData;
   }
 
@@ -123,7 +125,7 @@ class UserService implements IService {
       })
       .where(eq(usersTable.email, email))
       .returning();
-    const processedData = camelize(updatedUserData[0]);
+    const processedData = GenericHelper.camelize<IUser>(updatedUserData[0]);
 
     return processedData;
   }
