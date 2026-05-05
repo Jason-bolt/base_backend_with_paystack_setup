@@ -3,9 +3,10 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import router from "./src/routes";
-// import "./config/queue/worker";
+import "./config/queue/worker";
 import { Request, Response } from "express";
 import envs from "./config/envs";
+import authService from "./src/modules/auth/service";
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -37,6 +38,8 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.listen(envs.PORT, () => {
-  console.log(`Server is running on port ${envs.PORT}`);
+authService.seed().then(() => {
+  app.listen(envs.PORT, () => {
+    console.log(`Server is running on port ${envs.PORT}`);
+  });
 });
